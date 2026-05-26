@@ -1,17 +1,35 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import Header from "@/components/Header";
+import Hero from "@/components/Hero";
+import AboutSection from "@/components/AboutSection";
+import CatalogSection from "@/components/CatalogSection";
+import DeliverySection from "@/components/DeliverySection";
+import ContactsSection from "@/components/ContactsSection";
+import Footer from "@/components/Footer";
+import OrderModal from "@/components/OrderModal";
 
-const Index = () => {
+export type Section = "home" | "about" | "catalog" | "delivery" | "contacts";
+
+
+export default function Index() {
+  const [activeSection, setActiveSection] = useState<Section>("home");
+  const [orderModal, setOrderModal] = useState<{ open: boolean; fabricName?: string }>({ open: false });
+
+  const openOrder = (fabricName?: string) => setOrderModal({ open: true, fabricName });
+  const closeOrder = () => setOrderModal({ open: false });
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
-      </div>
-      <span className="absolute bottom-8 left-1/2 -translate-x-1/2 inline-block bg-[#FF6637] text-white text-sm px-4 py-2 rounded-full whitespace-nowrap">
-        Подождите 5 минут, Юра создает первую версию проекта с нуля
-      </span>
+    <div className="min-h-screen bg-background font-golos">
+      <Header activeSection={activeSection} onNavigate={setActiveSection} />
+      <main>
+        {activeSection === "home" && <Hero onNavigate={setActiveSection} onOrder={openOrder} />}
+        {activeSection === "about" && <AboutSection />}
+        {activeSection === "catalog" && <CatalogSection onOrder={openOrder} />}
+        {activeSection === "delivery" && <DeliverySection />}
+        {activeSection === "contacts" && <ContactsSection />}
+      </main>
+      <Footer onNavigate={setActiveSection} />
+      <OrderModal open={orderModal.open} fabricName={orderModal.fabricName} onClose={closeOrder} />
     </div>
   );
-};
-
-export default Index;
+}
