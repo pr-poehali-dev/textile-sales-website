@@ -60,8 +60,8 @@ export default {
 					indigo: '#1e1654',
 					gold: '#e8a827',
 					'gold-light': '#f5d48a',
-					cream: '#f8f4ee',
-					sage: '#8aab8e',
+					cream: '#eef5ef',
+					sage: '#7aaa80',
 				}
 			},
 			borderRadius: {
